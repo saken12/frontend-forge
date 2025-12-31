@@ -1,16 +1,23 @@
-import { Search, MapPin, Clock, Briefcase, Calendar, Building, X, Bookmark } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, MapPin, Clock, Briefcase, Calendar, Building, X, Bookmark, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const filters = [
-  { icon: MapPin, label: "Location" },
-  { icon: Clock, label: "Timezone" },
-  { icon: Briefcase, label: "Job Type" },
-  { icon: Calendar, label: "Commitment" },
-  { icon: Building, label: "Work Model" },
-];
+const filterOptions = {
+  location: ["United States", "Europe", "Asia", "Africa", "Remote"],
+  timezone: ["UTC-8", "UTC-5", "UTC+0", "GMT+1", "UTC+8"],
+  jobType: ["Engineering", "Design", "Product", "Marketing"],
+  commitment: ["Full-time", "Part-time", "Contract", "Freelance"],
+  workModel: ["Remote", "Onsite", "Hybrid"],
+};
 
 const jobs = [
   {
@@ -20,11 +27,14 @@ const jobs = [
     logoColor: "bg-blue-500",
     position: "Product Manager",
     salary: "$90-120/hr",
-    location: "Onsite, United Sates",
+    location: "Onsite, United States",
     timezone: "UTC-5",
     hours: "40 hrs/wk",
     postedDate: "Apr 8, 2025",
     skills: ["UX/UI", "Wireframing", "Tailwind CSS", "Typography"],
+    workModel: "Onsite",
+    commitment: "Full-time",
+    jobType: "Product",
   },
   {
     id: 2,
@@ -34,10 +44,13 @@ const jobs = [
     position: "Frontend Developer",
     salary: "$90-120/hr",
     location: "Remote, Asia",
-    timezone: "GMT+1",
+    timezone: "UTC+8",
     hours: "20+ hrs/wk",
     postedDate: "Apr 8, 2025",
     skills: ["Django", "PostgreSQL", "SQL", "MySQL"],
+    workModel: "Remote",
+    commitment: "Part-time",
+    jobType: "Engineering",
   },
   {
     id: 3,
@@ -51,6 +64,9 @@ const jobs = [
     hours: "Under 20 hrs/wk",
     postedDate: "Apr 7, 2025",
     skills: ["Tailwind CSS", "HTML5", "CSS3", "TypeScript", "Web Animations"],
+    workModel: "Hybrid",
+    commitment: "Contract",
+    jobType: "Engineering",
   },
   {
     id: 4,
@@ -64,43 +80,153 @@ const jobs = [
     hours: "20+ hrs/wk",
     postedDate: "Apr 7, 2025",
     skills: ["UX/UI", "Typography", "User Research", "InVision", "Illustrator"],
+    workModel: "Onsite",
+    commitment: "Full-time",
+    jobType: "Design",
   },
 ];
 
+type FilterKey = keyof typeof filterOptions;
+
 export default function Jobs() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState<Record<FilterKey, string | null>>({
+    location: null,
+    timezone: null,
+    jobType: null,
+    commitment: null,
+    workModel: null,
+  });
+
+  const handleFilterSelect = (filterKey: FilterKey, value: string) => {
+    setActiveFilters((prev) => ({
+      ...prev,
+      [filterKey]: prev[filterKey] === value ? null : value,
+    }));
+  };
+
+  const clearFilters = () => {
+    setActiveFilters({
+      location: null,
+      timezone: null,
+      jobType: null,
+      commitment: null,
+      workModel: null,
+    });
+    setSearchQuery("");
+  };
+
+  const filteredJobs = useMemo(() => {
+    return jobs.filter((job) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesSearch =
+          job.company.toLowerCase().includes(query) ||
+          job.position.toLowerCase().includes(query) ||
+          job.skills.some((skill) => skill.toLowerCase().includes(query));
+        if (!matchesSearch) return false;
+      }
+
+      // Location filter
+      if (activeFilters.location) {
+        if (!job.location.toLowerCase().includes(activeFilters.location.toLowerCase())) {
+          return false;
+        }
+      }
+
+      // Timezone filter
+      if (activeFilters.timezone) {
+        if (job.timezone !== activeFilters.timezone) {
+          return false;
+        }
+      }
+
+      // Job Type filter
+      if (activeFilters.jobType) {
+        if (job.jobType !== activeFilters.jobType) {
+          return false;
+        }
+      }
+
+      // Commitment filter
+      if (activeFilters.commitment) {
+        if (job.commitment !== activeFilters.commitment) {
+          return false;
+        }
+      }
+
+      // Work Model filter
+      if (activeFilters.workModel) {
+        if (job.workModel !== activeFilters.workModel) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [searchQuery, activeFilters]);
+
+  const hasActiveFilters = Object.values(activeFilters).some((v) => v !== null) || searchQuery;
+
+  const filters: { key: FilterKey; icon: typeof MapPin; label: string }[] = [
+    { key: "location", icon: MapPin, label: "Location" },
+    { key: "timezone", icon: Clock, label: "Timezone" },
+    { key: "jobType", icon: Briefcase, label: "Job Type" },
+    { key: "commitment", icon: Calendar, label: "Commitment" },
+    { key: "workModel", icon: Building, label: "Work Model" },
+  ];
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Search and Filters */}
       <div className="space-y-4">
         <div className="relative w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search Jobs" 
+          <Input
+            placeholder="Search Jobs"
             className="pl-9 bg-background border-border"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
           {filters.map((filter) => (
-            <Button 
-              key={filter.label} 
-              variant="outline" 
-              size="sm"
-              className="gap-2 border-border"
-            >
-              <filter.icon className="h-4 w-4" />
-              {filter.label}
-            </Button>
+            <DropdownMenu key={filter.key}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={activeFilters[filter.key] ? "default" : "outline"}
+                  size="sm"
+                  className="gap-2 border-border"
+                >
+                  <filter.icon className="h-4 w-4" />
+                  {activeFilters[filter.key] || filter.label}
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                {filterOptions[filter.key].map((option) => (
+                  <DropdownMenuItem
+                    key={option}
+                    onClick={() => handleFilterSelect(filter.key, option)}
+                    className={activeFilters[filter.key] === option ? "bg-accent" : ""}
+                  >
+                    {option}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           ))}
-          <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground">
-            <X className="h-4 w-4" />
-            Clear Filters
-          </Button>
+          {hasActiveFilters && (
+            <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground" onClick={clearFilters}>
+              <X className="h-4 w-4" />
+              Clear Filters
+            </Button>
+          )}
 
-          <span className="ml-auto text-sm text-muted-foreground">21 jobs found</span>
+          <span className="ml-auto text-sm text-muted-foreground">{filteredJobs.length} jobs found</span>
         </div>
-
-        <p className="text-xs text-muted-foreground">+ Powered by CMS+</p>
       </div>
 
       {/* Job Listings */}
@@ -114,64 +240,79 @@ export default function Jobs() {
         </div>
 
         <div className="space-y-4">
-          {jobs.map((job) => (
-            <Card key={job.id} className="border-border">
-              <CardContent className="p-5">
-                <div className="flex items-start gap-4">
-                  {/* Logo */}
-                  <div className={`w-12 h-12 rounded-lg ${job.logoColor} flex items-center justify-center text-primary-foreground font-bold text-lg`}>
-                    {job.logo}
-                  </div>
+          {filteredJobs.length === 0 ? (
+            <Card className="border-border">
+              <CardContent className="p-8 text-center">
+                <p className="text-muted-foreground">No jobs found matching your criteria.</p>
+                <Button variant="link" onClick={clearFilters} className="mt-2">
+                  Clear all filters
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            filteredJobs.map((job) => (
+              <Card key={job.id} className="border-border">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-4">
+                    {/* Logo */}
+                    <div
+                      className={`w-12 h-12 rounded-lg ${job.logoColor} flex items-center justify-center text-primary-foreground font-bold text-lg`}
+                    >
+                      {job.logo}
+                    </div>
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-foreground">{job.company}</h3>
-                        <p className="text-sm text-muted-foreground">{job.position}</p>
+                    {/* Content */}
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-foreground">{job.company}</h3>
+                          <p className="text-sm text-muted-foreground">{job.position}</p>
+                        </div>
+
+                        <div className="text-right">
+                          <button className="text-muted-foreground hover:text-foreground mb-1">
+                            <Bookmark className="h-5 w-5" />
+                          </button>
+                          <p className="font-semibold text-foreground">{job.salary}</p>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                            <span className="flex items-center gap-1">
+                              <MapPin className="h-3 w-3" />
+                              {job.location}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {job.timezone}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
+                              {job.hours}
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="text-right">
-                        <button className="text-muted-foreground hover:text-foreground mb-1">
-                          <Bookmark className="h-5 w-5" />
-                        </button>
-                        <p className="font-semibold text-foreground">{job.salary}</p>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                          <span className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3" />
-                            {job.location}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            {job.timezone}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {job.hours}
-                          </span>
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {job.skills.map((skill) => (
+                            <Badge key={skill} variant="secondary" className="font-normal">
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-muted-foreground">Posted {job.postedDate}</span>
+                          <Button variant="outline" size="sm">
+                            View Job
+                          </Button>
                         </div>
                       </div>
                     </div>
-
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {job.skills.map((skill) => (
-                          <Badge key={skill} variant="secondary" className="font-normal">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-muted-foreground">Posted {job.postedDate}</span>
-                        <Button variant="outline" size="sm">View Job</Button>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </section>
     </div>
