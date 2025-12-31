@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import Home from "./pages/Home";
 import Jobs from "./pages/Jobs";
+import JobDetail from "./pages/JobDetail";
 import SavedJobs from "./pages/SavedJobs";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
@@ -26,6 +27,7 @@ const App = () => (
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
             <Route path="/saved-jobs" element={<SavedJobs />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/profile" element={<Profile />} />
