@@ -1,4 +1,4 @@
-import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, ShoppingCart } from "lucide-react";
+import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -56,18 +56,24 @@ export function Sidebar() {
           <span>Support</span>
         </NavLink>
 
-        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium bg-accent text-accent-foreground hover:opacity-90 transition-opacity">
-          <ShoppingCart className="h-4 w-4" />
-          <span>Buy Template</span>
-        </button>
+        <NavLink
+          to="/post-job"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium bg-accent text-accent-foreground hover:opacity-90 transition-opacity"
+        >
+          <PlusCircle className="h-4 w-4" />
+          <span>Post Job</span>
+        </NavLink>
 
-        <div className="pt-4 pb-2 px-1">
-          <p className="text-xs text-muted-foreground">Endorsed by</p>
-          <p className="text-sm font-medium text-foreground flex items-center gap-1.5 mt-1">
-            <span className="w-5 h-5 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-[10px] text-primary-foreground font-bold">P</span>
-            Plaiter
-          </p>
-        </div>
+        <NavLink
+          to="/settings"
+          className={cn(
+            "sidebar-item",
+            location.pathname === "/settings" ? "sidebar-item-active" : "sidebar-item-inactive"
+          )}
+        >
+          <Settings className="h-4 w-4" />
+          <span>Settings</span>
+        </NavLink>
       </div>
     </aside>
   );

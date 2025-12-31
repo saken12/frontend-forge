@@ -10,6 +10,8 @@ import SavedJobs from "./pages/SavedJobs";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import Support from "./pages/Support";
+import Settings from "./pages/Settings";
+import PostJob from "./pages/PostJob";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="/learn" element={<Learn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/post-job" element={<PostJob />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
