@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, MapPin, Clock, Briefcase, Calendar, Building, X, Bookmark, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -89,6 +90,7 @@ const jobs = [
 type FilterKey = keyof typeof filterOptions;
 
 export default function Jobs() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<Record<FilterKey, string | null>>({
     location: null,
@@ -302,7 +304,7 @@ export default function Jobs() {
 
                         <div className="flex items-center gap-3">
                           <span className="text-xs text-muted-foreground">Posted {job.postedDate}</span>
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" onClick={() => navigate(`/jobs/${job.id}`)}>
                             View Job
                           </Button>
                         </div>
