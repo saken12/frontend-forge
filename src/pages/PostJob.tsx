@@ -1,12 +1,62 @@
-import { Briefcase, MapPin, DollarSign, Clock, Building, Tag } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Briefcase, MapPin, DollarSign, Tag } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PostJob() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    company: "",
+    position: "",
+    description: "",
+    workModel: "",
+    location: "",
+    timezone: "",
+    salaryMin: "",
+    salaryMax: "",
+    salaryType: "",
+    commitment: "",
+    skills: "",
+    jobType: "",
+  });
+
+  const handleChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handlePublish = async () => {
+    setIsSubmitting(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log("Job published:", formData);
+    
+    toast({
+      title: "Job published!",
+      description: "Your job listing is now live.",
+    });
+    
+    setIsSubmitting(false);
+    navigate("/my-jobs");
+  };
+
+  const handleSaveDraft = async () => {
+    console.log("Draft saved:", formData);
+    toast({
+      title: "Draft saved",
+      description: "Your job listing has been saved as a draft.",
+    });
+  };
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
@@ -25,12 +75,22 @@ export default function PostJob() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="company">Company Name</Label>
-            <Input id="company" placeholder="e.g., Atlassian" />
+            <Input 
+              id="company" 
+              placeholder="e.g., Atlassian" 
+              value={formData.company}
+              onChange={(e) => handleChange("company", e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="position">Position Title</Label>
-            <Input id="position" placeholder="e.g., Product Manager" />
+            <Input 
+              id="position" 
+              placeholder="e.g., Product Manager" 
+              value={formData.position}
+              onChange={(e) => handleChange("position", e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">
@@ -39,6 +99,8 @@ export default function PostJob() {
               id="description" 
               placeholder="Describe the role, responsibilities, and requirements..."
               className="min-h-[150px]"
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
             />
           </div>
         </CardContent>
@@ -56,7 +118,7 @@ export default function PostJob() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Work Model</Label>
-              <Select>
+              <Select value={formData.workModel} onValueChange={(v) => handleChange("workModel", v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select work model" />
                 </SelectTrigger>
@@ -70,13 +132,18 @@ export default function PostJob() {
 
             <div className="space-y-2">
               <Label htmlFor="location">Location</Label>
-              <Input id="location" placeholder="e.g., United States" />
+              <Input 
+                id="location" 
+                placeholder="e.g., United States" 
+                value={formData.location}
+                onChange={(e) => handleChange("location", e.target.value)}
+              />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label>Timezone</Label>
-            <Select>
+            <Select value={formData.timezone} onValueChange={(v) => handleChange("timezone", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select timezone" />
               </SelectTrigger>
@@ -104,18 +171,30 @@ export default function PostJob() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="salaryMin">Minimum Salary</Label>
-              <Input id="salaryMin" placeholder="e.g., 90000" type="number" />
+              <Input 
+                id="salaryMin" 
+                placeholder="e.g., 90000" 
+                type="number" 
+                value={formData.salaryMin}
+                onChange={(e) => handleChange("salaryMin", e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="salaryMax">Maximum Salary</Label>
-              <Input id="salaryMax" placeholder="e.g., 120000" type="number" />
+              <Input 
+                id="salaryMax" 
+                placeholder="e.g., 120000" 
+                type="number" 
+                value={formData.salaryMax}
+                onChange={(e) => handleChange("salaryMax", e.target.value)}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Salary Type</Label>
-              <Select>
+              <Select value={formData.salaryType} onValueChange={(v) => handleChange("salaryType", v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
@@ -129,7 +208,7 @@ export default function PostJob() {
 
             <div className="space-y-2">
               <Label>Commitment</Label>
-              <Select>
+              <Select value={formData.commitment} onValueChange={(v) => handleChange("commitment", v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select commitment" />
                 </SelectTrigger>
@@ -156,12 +235,17 @@ export default function PostJob() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="skills">Skills (comma separated)</Label>
-            <Input id="skills" placeholder="e.g., React, TypeScript, Node.js, PostgreSQL" />
+            <Input 
+              id="skills" 
+              placeholder="e.g., React, TypeScript, Node.js, PostgreSQL" 
+              value={formData.skills}
+              onChange={(e) => handleChange("skills", e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">
             <Label>Job Type</Label>
-            <Select>
+            <Select value={formData.jobType} onValueChange={(v) => handleChange("jobType", v)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select job type" />
               </SelectTrigger>
@@ -179,8 +263,10 @@ export default function PostJob() {
       </Card>
 
       <div className="flex items-center justify-end gap-4">
-        <Button variant="outline">Save as Draft</Button>
-        <Button>Publish Job</Button>
+        <Button variant="outline" onClick={handleSaveDraft}>Save as Draft</Button>
+        <Button onClick={handlePublish} disabled={isSubmitting}>
+          {isSubmitting ? "Publishing..." : "Publish Job"}
+        </Button>
       </div>
     </div>
   );
