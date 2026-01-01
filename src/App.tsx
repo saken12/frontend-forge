@@ -14,6 +14,8 @@ import Profile from "./pages/Profile";
 import Support from "./pages/Support";
 import Settings from "./pages/Settings";
 import PostJob from "./pages/PostJob";
+import Chat from "./pages/Chat";
+import Payments from "./pages/Payments";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/my-jobs" element={<MyJobs />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/payments" element={<Payments />} />
             <Route path="/support" element={<Support />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/post-job" element={<PostJob />} />
