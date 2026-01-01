@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bookmark, CheckCircle, MapPin, Clock, Calendar, ArrowLeft } from "lucide-react";
+import { Bookmark, BookmarkCheck, CheckCircle, MapPin, Clock, Calendar, ArrowLeft } from "lucide-react";
+import { ApplyJobDialog } from "@/components/ApplyJobDialog";
+import { useToast } from "@/hooks/use-toast";
 
 // Mock job data - in real app this would come from API/props
 const mockJobs: Record<string, {
@@ -85,6 +88,11 @@ const mockJobs: Record<string, {
 export default function JobDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [applyDialogOpen, setApplyDialogOpen] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isMarkedApplied, setIsMarkedApplied] = useState(false);
   
   const job = id ? mockJobs[id] : null;
 
@@ -109,9 +117,20 @@ export default function JobDetail() {
           <span className="text-muted-foreground">{job.company}</span>
           <span className="text-muted-foreground text-sm">Posted {job.postedDate}</span>
         </div>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button 
+          variant={isMarkedApplied ? "default" : "outline"} 
+          size="sm" 
+          className="gap-2"
+          onClick={() => {
+            setIsMarkedApplied(!isMarkedApplied);
+            toast({
+              title: isMarkedApplied ? "Unmarked" : "Marked as applied",
+              description: isMarkedApplied ? "Job removed from applied list" : "Job added to your applied list",
+            });
+          }}
+        >
           <CheckCircle className="h-4 w-4" />
-          Mark as applied
+          {isMarkedApplied ? "Applied" : "Mark as applied"}
         </Button>
       </div>
 
@@ -135,10 +154,20 @@ export default function JobDetail() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon">
-            <Bookmark className="h-4 w-4" />
+          <Button 
+            variant={isSaved ? "default" : "outline"} 
+            size="icon"
+            onClick={() => {
+              setIsSaved(!isSaved);
+              toast({
+                title: isSaved ? "Removed from saved" : "Job saved",
+                description: isSaved ? "Job removed from your saved list" : "Job added to your saved list",
+              });
+            }}
+          >
+            {isSaved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
           </Button>
-          <Button>Apply</Button>
+          <Button onClick={() => setApplyDialogOpen(true)}>Apply</Button>
         </div>
       </div>
 
@@ -216,6 +245,22 @@ export default function JobDetail() {
           </CardContent>
         </Card>
       </div>
+
+      <ApplyJobDialog
+        open={applyDialogOpen}
+        onOpenChange={setApplyDialogOpen}
+        jobTitle={job.title}
+        company={job.company}
+        onSubmit={(data) => {
+          console.log("Application submitted:", data);
+          setApplyDialogOpen(false);
+          setIsMarkedApplied(true);
+          toast({
+            title: "Application submitted!",
+            description: `Your application for ${job.title} at ${job.company} has been submitted.`,
+          });
+        }}
+      />
     </div>
   );
 }
