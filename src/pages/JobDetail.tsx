@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Bookmark, BookmarkCheck, CheckCircle, MapPin, Clock, Calendar, ArrowLeft } from "lucide-react";
 import { ApplyJobDialog } from "@/components/ApplyJobDialog";
 import { useToast } from "@/hooks/use-toast";
+import { ReviewSection } from "@/components/reviews/ReviewSelection";
 
 // Mock job data - in real app this would come from API/props
 const mockJobs: Record<string, {
@@ -89,11 +90,11 @@ export default function JobDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   const [applyDialogOpen, setApplyDialogOpen] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [isMarkedApplied, setIsMarkedApplied] = useState(false);
-  
+
   const job = id ? mockJobs[id] : null;
 
   if (!job) {
@@ -117,9 +118,9 @@ export default function JobDetail() {
           <span className="text-muted-foreground">{job.company}</span>
           <span className="text-muted-foreground text-sm">Posted {job.postedDate}</span>
         </div>
-        <Button 
-          variant={isMarkedApplied ? "default" : "outline"} 
-          size="sm" 
+        <Button
+          variant={isMarkedApplied ? "default" : "outline"}
+          size="sm"
           className="gap-2"
           onClick={() => {
             setIsMarkedApplied(!isMarkedApplied);
@@ -154,8 +155,8 @@ export default function JobDetail() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button 
-            variant={isSaved ? "default" : "outline"} 
+          <Button
+            variant={isSaved ? "default" : "outline"}
             size="icon"
             onClick={() => {
               setIsSaved(!isSaved);
@@ -245,6 +246,8 @@ export default function JobDetail() {
           </CardContent>
         </Card>
       </div>
+
+      <ReviewSection companyName={job.company} />
 
       <ApplyJobDialog
         open={applyDialogOpen}
