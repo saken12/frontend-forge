@@ -89,9 +89,12 @@ const jobs = [
 
 type FilterKey = keyof typeof filterOptions;
 
+type SortOption = "newest" | "oldest" | "salary-high" | "salary-low";
+
 export default function Jobs() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [activeFilters, setActiveFilters] = useState<Record<FilterKey, string | null>>({
     location: null,
     timezone: null,
@@ -99,6 +102,13 @@ export default function Jobs() {
     commitment: null,
     workModel: null,
   });
+
+  const sortOptions: { value: SortOption; label: string }[] = [
+    { value: "newest", label: "Newest" },
+    { value: "oldest", label: "Oldest" },
+    { value: "salary-high", label: "Salary (High to Low)" },
+    { value: "salary-low", label: "Salary (Low to High)" },
+  ];
 
   const handleFilterSelect = (filterKey: FilterKey, value: string) => {
     setActiveFilters((prev) => ({
@@ -119,7 +129,7 @@ export default function Jobs() {
   };
 
   const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => {
+    const filtered = jobs.filter((job) => {
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
@@ -167,7 +177,29 @@ export default function Jobs() {
 
       return true;
     });
-  }, [searchQuery, activeFilters]);
+
+    // Sort jobs
+    const parseDate = (dateStr: string) => new Date(dateStr).getTime();
+    const parseSalary = (salaryStr: string) => {
+      const num = parseInt(salaryStr.replace(/[^0-9]/g, ""), 10);
+      return isNaN(num) ? 0 : num;
+    };
+
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "newest":
+          return parseDate(b.postedDate) - parseDate(a.postedDate);
+        case "oldest":
+          return parseDate(a.postedDate) - parseDate(b.postedDate);
+        case "salary-high":
+          return parseSalary(b.salary) - parseSalary(a.salary);
+        case "salary-low":
+          return parseSalary(a.salary) - parseSalary(b.salary);
+        default:
+          return 0;
+      }
+    });
+  }, [searchQuery, activeFilters, sortBy]);
 
   const hasActiveFilters = Object.values(activeFilters).some((v) => v !== null) || searchQuery;
 
@@ -237,7 +269,25 @@ export default function Jobs() {
           <h2 className="text-lg font-semibold text-foreground">Search Listings</h2>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>Sort by:</span>
-            <button className="font-medium text-foreground hover:underline">Newest ∨</button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1 font-medium text-foreground h-auto p-0 hover:bg-transparent">
+                  {sortOptions.find((opt) => opt.value === sortBy)?.label}
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {sortOptions.map((option) => (
+                  <DropdownMenuItem
+                    key={option.value}
+                    onClick={() => setSortBy(option.value)}
+                    className={sortBy === option.value ? "bg-accent" : ""}
+                  >
+                    {option.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
