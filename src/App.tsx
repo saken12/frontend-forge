@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Jobs from "./pages/Jobs";
 import JobDetail from "./pages/JobDetail";
 import SavedJobs from "./pages/SavedJobs";
+import MyJobs from "./pages/MyJobs";
 import Learn from "./pages/Learn";
 import Profile from "./pages/Profile";
 import Support from "./pages/Support";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:id" element={<JobDetail />} />
             <Route path="/saved-jobs" element={<SavedJobs />} />
+            <Route path="/my-jobs" element={<MyJobs />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/support" element={<Support />} />

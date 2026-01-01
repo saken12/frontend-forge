@@ -1,4 +1,4 @@
-import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle } from "lucide-react";
+import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle, FileText } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +17,7 @@ const menuItems = [
   { icon: Home, label: "Home", path: "/" },
   { icon: Briefcase, label: "Jobs", path: "/jobs" },
   { icon: Bookmark, label: "Saved Jobs", path: "/saved-jobs" },
+  { icon: FileText, label: "My Jobs", path: "/my-jobs" },
   { icon: MonitorPlay, label: "Learn", path: "/learn" },
   { icon: User, label: "Profile", path: "/profile" },
 ];

@@ -130,7 +130,9 @@ export default function Home() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">Posted {job.postedDate}</span>
-                  <Button variant="outline" size="sm">View Job</Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to={`/jobs/${job.id}`}>View Job</Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
