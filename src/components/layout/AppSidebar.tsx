@@ -1,4 +1,4 @@
-import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle, FileText } from "lucide-react";
+import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle, FileText, MessageCircle, CreditCard } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -18,8 +18,10 @@ const menuItems = [
   { icon: Briefcase, label: "Jobs", path: "/jobs" },
   { icon: Bookmark, label: "Saved Jobs", path: "/saved-jobs" },
   { icon: FileText, label: "My Jobs", path: "/my-jobs" },
+  { icon: MessageCircle, label: "Chat", path: "/chat" },
   { icon: MonitorPlay, label: "Learn", path: "/learn" },
   { icon: User, label: "Profile", path: "/profile" },
+  { icon: CreditCard, label: "Payments", path: "/payments" },
 ];
 
 export function AppSidebar() {
@@ -44,8 +46,8 @@ export function AppSidebar() {
                         to={item.path}
                         className={cn(
                           "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                          isActive 
-                            ? "bg-accent text-accent-foreground" 
+                          isActive
+                            ? "bg-accent text-accent-foreground"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground"
                         )}
                       >
