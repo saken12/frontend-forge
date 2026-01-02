@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { AddPaymentDialog } from "@/components/payments/AddPaymentDialog";
+import { AddPaymentDialog } from "@/components/Payments/AddPaymentDialog";
 
 const mockPaymentMethods = [
   {

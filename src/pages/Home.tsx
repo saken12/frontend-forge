@@ -1,7 +1,9 @@
-import { Bookmark, MapPin, Clock, Calendar } from "lucide-react";
+import { Bookmark, MapPin, Clock, Calendar, Users, Eye, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 // Sample job data
 const recentJobs = [
@@ -42,6 +44,63 @@ const recentJobs = [
     postedDate: "Apr 7, 2025",
   },
 ];
+
+// Sample applicants data
+const recentApplicants = [
+  {
+    id: 1,
+    name: "John Doe",
+    avatar: "",
+    position: "Product Manager",
+    company: "Atlassian",
+    appliedDate: "Apr 10, 2025",
+    status: "pending",
+    experience: "5 years",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    avatar: "",
+    position: "Frontend Developer",
+    company: "Anima",
+    appliedDate: "Apr 9, 2025",
+    status: "reviewed",
+    experience: "3 years",
+  },
+  {
+    id: 3,
+    name: "Mike Johnson",
+    avatar: "",
+    position: "Full Stack Engineer",
+    company: "Airtable",
+    appliedDate: "Apr 8, 2025",
+    status: "interviewed",
+    experience: "7 years",
+  },
+  {
+    id: 4,
+    name: "Sarah Williams",
+    avatar: "",
+    position: "Product Manager",
+    company: "Atlassian",
+    appliedDate: "Apr 8, 2025",
+    status: "pending",
+    experience: "4 years",
+  },
+];
+
+const getStatusBadge = (status: string) => {
+  switch (status) {
+    case "pending":
+      return <Badge variant="secondary">Pending</Badge>;
+    case "reviewed":
+      return <Badge variant="outline" className="border-blue-500 text-blue-500">Reviewed</Badge>;
+    case "interviewed":
+      return <Badge variant="outline" className="border-green-500 text-green-500">Interviewed</Badge>;
+    default:
+      return <Badge variant="secondary">{status}</Badge>;
+  }
+};
 
 export default function Home() {
   return (
@@ -140,28 +199,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Saved Jobs */}
+      {/* Job Applicants */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-foreground">Saved Jobs</h2>
-          <Link to="/saved-jobs" className="text-sm text-muted-foreground hover:text-foreground">
-            See all saved jobs
+          <div className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-muted-foreground" />
+            <h2 className="text-lg font-semibold text-foreground">Recent Applicants</h2>
+          </div>
+          <Link to="/my-jobs" className="text-sm text-muted-foreground hover:text-foreground">
+            See all applicants
           </Link>
         </div>
 
-        <Card className="border-border bg-secondary/50">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-muted flex items-center justify-center text-muted-foreground">
-                +
-              </div>
-              <div>
-                <h3 className="font-medium text-foreground">Saved Jobs</h3>
-                <p className="text-sm text-muted-foreground">Jobs you save will appear here</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-2 gap-4">
+          {recentApplicants.map((applicant) => (
+            <Card key={applicant.id} className="border-border">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={applicant.avatar} />
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        {applicant.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="font-semibold text-foreground">{applicant.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Applied for <span className="font-medium">{applicant.position}</span>
+                      </p>
+                      <p className="text-xs text-muted-foreground">{applicant.experience} experience</p>
+                    </div>
+                  </div>
+                  {getStatusBadge(applicant.status)}
+                </div>
+
+                <div className="flex items-center justify-between mt-4">
+                  <span className="text-xs text-muted-foreground">Applied {applicant.appliedDate}</span>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm">
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <CheckCircle className="h-4 w-4 mr-1" />
+                      Review
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </section>
     </div>
   );
