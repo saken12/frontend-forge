@@ -133,12 +133,15 @@ export default function Home() {
 
         <Card className="w-56 border-border">
           <CardContent className="p-5">
-            <h3 className="font-semibold text-foreground mb-2">Get Helpful Tips</h3>
+            <div className="flex items-center gap-2 mb-2">
+              <Users className="h-4 w-4 text-primary" />
+              <h3 className="font-semibold text-foreground">Job Applicants</h3>
+            </div>
             <p className="text-sm text-muted-foreground mb-4">
-              We have curated resources to help you get better at hunting and applying for jobs.
+              Review and manage applicants who have applied to your job postings.
             </p>
             <Button variant="outline" size="sm" className="w-full" asChild>
-              <Link to="/learn">See Resources</Link>
+              <Link to="/my-jobs">See Applicants</Link>
             </Button>
           </CardContent>
         </Card>
