@@ -8,10 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function PostJob() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -58,7 +60,7 @@ export default function PostJob() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Post a Job</h1>
         <p className="text-muted-foreground">Create a new job listing</p>
@@ -115,7 +117,7 @@ export default function PostJob() {
           <CardDescription>Where and how the work will be done</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
             <div className="space-y-2">
               <Label>Work Model</Label>
               <Select value={formData.workModel} onValueChange={(v) => handleChange("workModel", v)}>
@@ -168,7 +170,7 @@ export default function PostJob() {
           <CardDescription>Salary and working hours</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
             <div className="space-y-2">
               <Label htmlFor="salaryMin">Minimum Salary</Label>
               <Input 
@@ -191,7 +193,7 @@ export default function PostJob() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
             <div className="space-y-2">
               <Label>Salary Type</Label>
               <Select value={formData.salaryType} onValueChange={(v) => handleChange("salaryType", v)}>
@@ -262,9 +264,9 @@ export default function PostJob() {
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-end gap-4">
-        <Button variant="outline" onClick={handleSaveDraft}>Save as Draft</Button>
-        <Button onClick={handlePublish} disabled={isSubmitting}>
+      <div className={`flex items-center ${isMobile ? 'flex-col' : 'flex-row justify-end'} gap-4`}>
+        <Button variant="outline" onClick={handleSaveDraft} className={isMobile ? 'w-full' : ''}>Save as Draft</Button>
+        <Button onClick={handlePublish} disabled={isSubmitting} className={isMobile ? 'w-full' : ''}>
           {isSubmitting ? "Publishing..." : "Publish Job"}
         </Button>
       </div>
