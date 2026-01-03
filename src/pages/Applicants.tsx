@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Test applicants data
 const applicants = [
@@ -60,15 +61,17 @@ const applicants = [
 ];
 
 export default function Applicants() {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
       {/* Hero Section */}
-      <div className="text-center py-8 px-4 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] bg-background">
+      <div className="text-center py-6 md:py-8 px-4 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTVlN2ViIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] bg-background">
         <Badge className="mb-4 bg-primary text-primary-foreground">Applicants</Badge>
-        <h1 className="text-2xl font-bold text-foreground mb-2">
+        <h1 className="text-xl md:text-2xl font-bold text-foreground mb-2">
           Manage Your Job Applicants
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground text-sm md:text-base">
           Review, filter, and connect with candidates who applied to your jobs.
         </p>
       </div>
@@ -146,8 +149,73 @@ export default function Applicants() {
             </div>
           </CardContent>
         </Card>
+      ) : isMobile ? (
+        /* Mobile Cards View */
+        <div className="space-y-4">
+          {applicants.map((applicant) => (
+            <Card key={applicant.id} className="border-border">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={applicant.avatar} alt={applicant.name} />
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        {applicant.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium text-foreground">{applicant.name}</p>
+                      <p className="text-sm text-muted-foreground">{applicant.position}</p>
+                    </div>
+                  </div>
+                  <Badge 
+                    variant={
+                      applicant.status === 'pending' ? 'secondary' :
+                      applicant.status === 'reviewed' ? 'default' :
+                      'outline'
+                    }
+                    className={
+                      applicant.status === 'interviewed' ? 'bg-green-100 text-green-700 border-green-200' : ''
+                    }
+                  >
+                    {applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1)}
+                  </Badge>
+                </div>
+
+                <div className="space-y-2 text-sm text-muted-foreground mb-4">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-3.5 w-3.5" />
+                    <span>{applicant.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-3.5 w-3.5" />
+                    <span>{applicant.appliedDate}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="h-3.5 w-3.5" />
+                    <span>{applicant.experience}</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <FileText className="h-4 w-4 mr-1" />
+                    Profile
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <Mail className="h-4 w-4 mr-1" />
+                    Email
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Phone className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       ) : (
-        /* Applicants List */
+        /* Desktop Table View */
         <Card>
           <CardContent className="p-0">
             <Table>

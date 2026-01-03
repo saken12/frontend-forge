@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Sample job data
 const recentJobs = [
@@ -103,15 +104,17 @@ const getStatusBadge = (status: string) => {
 };
 
 export default function Home() {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
       {/* Hero Section */}
-      <div className="flex gap-6">
+      <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-4 md:gap-6`}>
         {/* Main intro */}
         <Card className="flex-1 border-border">
-          <CardContent className="p-6">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Jobhunt</h1>
-            <h2 className="text-lg font-semibold text-foreground mb-3">Start your job search</h2>
+          <CardContent className="p-4 md:p-6">
+            <h1 className="text-xl md:text-2xl font-bold text-foreground mb-2">Jobhunt</h1>
+            <h2 className="text-base md:text-lg font-semibold text-foreground mb-3">Start your job search</h2>
             <p className="text-muted-foreground text-sm">
               We stay true to our word. Your next role is here! Don't hold the ball - get it rolling.
             </p>
@@ -119,8 +122,8 @@ export default function Home() {
         </Card>
 
         {/* Info cards */}
-        <Card className="w-56 border-border">
-          <CardContent className="p-5">
+        <Card className={`${isMobile ? 'w-full' : 'w-56'} border-border`}>
+          <CardContent className="p-4 md:p-5">
             <h3 className="font-semibold text-foreground mb-2">Search for Jobs</h3>
             <p className="text-sm text-muted-foreground mb-4">
               We vet companies job vacancies before listing them. They are actually looking for you!
@@ -131,8 +134,8 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card className="w-56 border-border">
-          <CardContent className="p-5">
+        <Card className={`${isMobile ? 'w-full' : 'w-56'} border-border`}>
+          <CardContent className="p-4 md:p-5">
             <div className="flex items-center gap-2 mb-2">
               <Users className="h-4 w-4 text-primary" />
               <h3 className="font-semibold text-foreground">Job Applicants</h3>
@@ -156,7 +159,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {recentJobs.map((job) => (
             <Card key={job.id} className="border-border">
               <CardContent className="p-4">
@@ -178,7 +181,7 @@ export default function Home() {
                 <p className="font-semibold text-foreground mb-3">{job.salary}</p>
 
                 <div className="space-y-1 text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <MapPin className="h-3.5 w-3.5" />
                     <span>{job.location}</span>
                     <Clock className="h-3.5 w-3.5 ml-2" />
@@ -207,14 +210,14 @@ export default function Home() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Users className="h-5 w-5 text-muted-foreground" />
-            <h2 className="text-lg font-semibold text-foreground">Recent Applicants</h2>
+            <h2 className="text-base md:text-lg font-semibold text-foreground">Recent Applicants</h2>
           </div>
           <Link to="/my-jobs" className="text-sm text-muted-foreground hover:text-foreground">
             See all applicants
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {recentApplicants.map((applicant) => (
             <Card key={applicant.id} className="border-border">
               <CardContent className="p-4">
