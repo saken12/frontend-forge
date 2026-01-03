@@ -1,11 +1,63 @@
-import { Users, Search, Briefcase, FileText, UserCheck } from "lucide-react";
+import { Users, Search, Briefcase, FileText, UserCheck, Mail, Phone, MapPin, Calendar, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// Empty state - no applicants yet
-const applicants: never[] = [];
+// Test applicants data
+const applicants = [
+  {
+    id: 1,
+    name: "Ahmad Fauzi",
+    email: "ahmad.fauzi@email.com",
+    phone: "+62 812-3456-7890",
+    position: "Frontend Developer",
+    location: "Jakarta, Indonesia",
+    appliedDate: "2 Jan 2026",
+    status: "pending",
+    avatar: "",
+    experience: "3 years",
+  },
+  {
+    id: 2,
+    name: "Siti Nurhaliza",
+    email: "siti.nurhaliza@email.com",
+    phone: "+62 857-9876-5432",
+    position: "UI/UX Designer",
+    location: "Bandung, Indonesia",
+    appliedDate: "1 Jan 2026",
+    status: "reviewed",
+    avatar: "",
+    experience: "5 years",
+  },
+  {
+    id: 3,
+    name: "Budi Santoso",
+    email: "budi.santoso@email.com",
+    phone: "+62 878-1234-5678",
+    position: "Backend Developer",
+    location: "Surabaya, Indonesia",
+    appliedDate: "31 Dec 2025",
+    status: "interviewed",
+    avatar: "",
+    experience: "4 years",
+  },
+];
 
 export default function Applicants() {
   return (
@@ -94,7 +146,101 @@ export default function Applicants() {
             </div>
           </CardContent>
         </Card>
-      ) : null}
+      ) : (
+        /* Applicants List */
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[300px]">Applicant</TableHead>
+                  <TableHead>Position</TableHead>
+                  <TableHead>Experience</TableHead>
+                  <TableHead>Applied Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {applicants.map((applicant) => (
+                  <TableRow key={applicant.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={applicant.avatar} alt={applicant.name} />
+                          <AvatarFallback className="bg-primary/10 text-primary">
+                            {applicant.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-medium text-foreground">{applicant.name}</p>
+                          <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                            <MapPin className="h-3 w-3" />
+                            {applicant.location}
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-medium text-foreground">{applicant.position}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="text-muted-foreground">{applicant.experience}</span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        {applicant.appliedDate}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge 
+                        variant={
+                          applicant.status === 'pending' ? 'secondary' :
+                          applicant.status === 'reviewed' ? 'default' :
+                          'outline'
+                        }
+                        className={
+                          applicant.status === 'interviewed' ? 'bg-green-100 text-green-700 border-green-200' : ''
+                        }
+                      >
+                        {applicant.status.charAt(0).toUpperCase() + applicant.status.slice(1)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <FileText className="h-4 w-4 mr-2" />
+                            View Profile
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Mail className="h-4 w-4 mr-2" />
+                            Send Email
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Phone className="h-4 w-4 mr-2" />
+                            Call
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <UserCheck className="h-4 w-4 mr-2" />
+                            Mark as Reviewed
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
