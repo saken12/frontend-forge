@@ -1,4 +1,4 @@
-import { Home, Briefcase, Bookmark, MonitorPlay, User, HelpCircle, Settings, PlusCircle, FileText, MessageCircle, CreditCard } from "lucide-react";
+import { Home, Briefcase, Bookmark, Users, User, HelpCircle, Settings, PlusCircle, FileText, MessageCircle, CreditCard } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -19,7 +19,7 @@ const menuItems = [
   { icon: Bookmark, label: "Saved Jobs", path: "/saved-jobs" },
   { icon: FileText, label: "My Jobs", path: "/my-jobs" },
   { icon: MessageCircle, label: "Chat", path: "/chat" },
-  { icon: MonitorPlay, label: "Learn", path: "/learn" },
+  { icon: Users, label: "Applicants", path: "/applicants" },
   { icon: User, label: "Profile", path: "/profile" },
   { icon: CreditCard, label: "Payments", path: "/payments" },
 ];
