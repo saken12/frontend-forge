@@ -7,12 +7,12 @@ import { Bookmark, BookmarkCheck, CheckCircle, MapPin, Clock, Calendar, ArrowLef
 import { ApplyJobDialog } from "@/components/ApplyJobDialog";
 import { useToast } from "@/hooks/use-toast";
 import { ReviewSection } from "@/components/reviews/ReviewSelection";
+import { DiceBearLogo } from "@/components/DiceBearAvatar";
 
 // Mock job data - in real app this would come from API/props
 const mockJobs: Record<string, {
   id: string;
   company: string;
-  logo: string;
   title: string;
   location: string;
   timezone: string;
@@ -28,7 +28,6 @@ const mockJobs: Record<string, {
   "1": {
     id: "1",
     company: "Atlassian",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     title: "Product Manager",
     location: "Onsite, New York",
     timezone: "UTC -5",
@@ -58,7 +57,6 @@ const mockJobs: Record<string, {
   "2": {
     id: "2",
     company: "Netflix",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Netflix",
     title: "Senior UX Designer",
     location: "Remote",
     timezone: "UTC -8",
@@ -114,7 +112,7 @@ export default function JobDetail() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={job.logo} alt={job.company} className="w-8 h-8 rounded-lg bg-muted" />
+          <DiceBearLogo seed={job.company} size="sm" />
           <span className="text-muted-foreground">{job.company}</span>
           <span className="text-muted-foreground text-sm">Posted {job.postedDate}</span>
         </div>

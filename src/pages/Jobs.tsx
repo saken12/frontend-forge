@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DiceBearLogo } from "@/components/DiceBearAvatar";
 
 const filterOptions = {
   location: ["United States", "Europe", "Asia", "Africa", "Remote"],
@@ -24,7 +25,6 @@ const jobs = [
   {
     id: 1,
     company: "Atlassian",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     position: "Product Manager",
     salary: "$90-120/hr",
     location: "Onsite, United States",
@@ -39,7 +39,6 @@ const jobs = [
   {
     id: 2,
     company: "Anima",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Anima",
     position: "Frontend Developer",
     salary: "$90-120/hr",
     location: "Remote, Asia",
@@ -54,7 +53,6 @@ const jobs = [
   {
     id: 3,
     company: "Airtable",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Airtable",
     position: "Full Stack Engineer",
     salary: "$50-70/hr",
     location: "Hybrid, Africa",
@@ -69,7 +67,6 @@ const jobs = [
   {
     id: 4,
     company: "Adobe",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Adobe",
     position: "UI/UX Designer",
     salary: "$100,000/yr",
     location: "Onsite, Europe",
@@ -303,7 +300,7 @@ export default function Jobs() {
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
                     {/* Logo */}
-                    <img src={job.logo} alt={job.company} className="w-12 h-12 rounded-lg bg-muted" />
+                    <DiceBearLogo seed={job.company} size="lg" />
 
                     {/* Content */}
                     <div className="flex-1">

@@ -2,16 +2,15 @@ import { Bookmark, MapPin, Clock, Calendar, Users, Eye, CheckCircle } from "luci
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DiceBearAvatar, DiceBearLogo } from "@/components/DiceBearAvatar";
 
 // Sample job data
 const recentJobs = [
   {
     id: 1,
     company: "Atlassian",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     position: "Product Manager",
     salary: "$90-120/hr",
     location: "Onsite, New York",
@@ -22,7 +21,6 @@ const recentJobs = [
   {
     id: 2,
     company: "Anima",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Anima",
     position: "Frontend Developer",
     salary: "$90-120/hr",
     location: "Remote, Europe",
@@ -33,7 +31,6 @@ const recentJobs = [
   {
     id: 3,
     company: "Airtable",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Airtable",
     position: "Full Stack Engineer",
     salary: "$50-70/hr",
     location: "Hybrid, London",
@@ -48,7 +45,6 @@ const recentApplicants = [
   {
     id: 1,
     name: "John Doe",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=John",
     position: "Product Manager",
     company: "Atlassian",
     appliedDate: "Apr 10, 2025",
@@ -58,7 +54,6 @@ const recentApplicants = [
   {
     id: 2,
     name: "Jane Smith",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Jane",
     position: "Frontend Developer",
     company: "Anima",
     appliedDate: "Apr 9, 2025",
@@ -68,7 +63,6 @@ const recentApplicants = [
   {
     id: 3,
     name: "Mike Johnson",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Mike",
     position: "Full Stack Engineer",
     company: "Airtable",
     appliedDate: "Apr 8, 2025",
@@ -78,7 +72,6 @@ const recentApplicants = [
   {
     id: 4,
     name: "Sarah Williams",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Sarah",
     position: "Product Manager",
     company: "Atlassian",
     appliedDate: "Apr 8, 2025",
@@ -162,7 +155,7 @@ export default function Home() {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <img src={job.logo} alt={job.company} className="w-10 h-10 rounded-lg bg-muted" />
+                    <DiceBearLogo seed={job.company} size="md" />
                     <div>
                       <h3 className="font-semibold text-foreground">{job.company}</h3>
                       <p className="text-sm text-muted-foreground">{job.position}</p>
@@ -218,12 +211,7 @@ export default function Home() {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={applicant.avatar} />
-                      <AvatarFallback className="bg-primary/10 text-primary">
-                        {applicant.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
+                    <DiceBearAvatar seed={applicant.name} size="md" />
                     <div>
                       <h3 className="font-semibold text-foreground">{applicant.name}</h3>
                       <p className="text-sm text-muted-foreground">

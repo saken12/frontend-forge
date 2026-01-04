@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Table,
   TableBody,
@@ -19,8 +18,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DiceBearAvatar, generateAvatarUrl } from "@/components/DiceBearAvatar";
 
-// Test applicants data
+// Test applicants data - avatar generated automatically from name
 const applicants = [
   {
     id: 1,
@@ -31,7 +31,6 @@ const applicants = [
     location: "Jakarta, Indonesia",
     appliedDate: "2 Jan 2026",
     status: "pending",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Ahmad",
     experience: "3 years",
   },
   {
@@ -43,7 +42,6 @@ const applicants = [
     location: "Bandung, Indonesia",
     appliedDate: "1 Jan 2026",
     status: "reviewed",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Siti",
     experience: "5 years",
   },
   {
@@ -55,7 +53,6 @@ const applicants = [
     location: "Surabaya, Indonesia",
     appliedDate: "31 Dec 2025",
     status: "interviewed",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Budi",
     experience: "4 years",
   },
 ];
@@ -157,12 +154,7 @@ export default function Applicants() {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={applicant.avatar} alt={applicant.name} />
-                      <AvatarFallback className="bg-primary/10 text-primary">
-                        {applicant.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
+                    <DiceBearAvatar seed={applicant.name} size="lg" />
                     <div>
                       <p className="font-medium text-foreground">{applicant.name}</p>
                       <p className="text-sm text-muted-foreground">{applicant.position}</p>
@@ -234,12 +226,7 @@ export default function Applicants() {
                   <TableRow key={applicant.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage src={applicant.avatar} alt={applicant.name} />
-                          <AvatarFallback className="bg-primary/10 text-primary">
-                            {applicant.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        </Avatar>
+                        <DiceBearAvatar seed={applicant.name} size="md" />
                         <div>
                           <p className="font-medium text-foreground">{applicant.name}</p>
                           <div className="flex items-center gap-1 text-sm text-muted-foreground">
