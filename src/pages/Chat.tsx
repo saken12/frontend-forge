@@ -3,7 +3,6 @@ import { Send, Search, MoreVertical, Phone, Video, Paperclip, Smile, ArrowLeft }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -13,13 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DiceBearAvatar } from "@/components/DiceBearAvatar";
 
 const mockConversations = [
   {
     id: 1,
     name: "Atlassian HR",
     company: "Atlassian",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=AtlassianHR",
     lastMessage: "We'd like to schedule an interview",
     timestamp: "2m ago",
     unread: 2,
@@ -29,7 +28,6 @@ const mockConversations = [
     id: 2,
     name: "Sarah Chen",
     company: "Netflix",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=SarahChen",
     lastMessage: "Thanks for your application",
     timestamp: "1h ago",
     unread: 0,
@@ -39,7 +37,6 @@ const mockConversations = [
     id: 3,
     name: "Mike Johnson",
     company: "Adobe",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=MikeJohnson",
     lastMessage: "Can you provide more details about...",
     timestamp: "2h ago",
     unread: 1,
@@ -49,7 +46,6 @@ const mockConversations = [
     id: 4,
     name: "Emma Wilson",
     company: "Spotify",
-    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=EmmaWilson",
     lastMessage: "Your resume looks great!",
     timestamp: "1d ago",
     unread: 0,
@@ -138,10 +134,7 @@ export default function Chat() {
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div className="relative">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={selectedChat.avatar} alt={selectedChat.name} />
-                  <AvatarFallback>{selectedChat.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                <DiceBearAvatar seed={selectedChat.name} size="sm" />
                 {selectedChat.online && (
                   <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-background" />
                 )}
@@ -236,10 +229,7 @@ export default function Chat() {
               >
                 <div className="flex items-start gap-3">
                   <div className="relative">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={conv.avatar} alt={conv.name} />
-                      <AvatarFallback>{conv.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
+                    <DiceBearAvatar seed={conv.name} size="md" />
                     {conv.online && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
                     )}
@@ -303,10 +293,7 @@ export default function Chat() {
               >
                 <div className="flex items-start gap-3">
                   <div className="relative">
-                    <Avatar>
-                      <AvatarImage src={conv.avatar} alt={conv.name} />
-                      <AvatarFallback>{conv.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
+                    <DiceBearAvatar seed={conv.name} size="md" />
                     {conv.online && (
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
                     )}
@@ -341,10 +328,7 @@ export default function Chat() {
         <div className="p-4 border-b border-border flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Avatar>
-                <AvatarImage src={selectedChat.avatar} alt={selectedChat.name} />
-                <AvatarFallback>{selectedChat.name.charAt(0)}</AvatarFallback>
-              </Avatar>
+              <DiceBearAvatar seed={selectedChat.name} size="md" />
               {selectedChat.online && (
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
               )}

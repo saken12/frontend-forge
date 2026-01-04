@@ -9,13 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DiceBearLogo } from "@/components/DiceBearAvatar";
 
 // Mock data for posted jobs
 const myJobs = [
   {
     id: 1,
     company: "My Company",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=MyCompany",
     position: "Product Manager",
     salary: "$90-120/hr",
     location: "Onsite, New York",
@@ -26,7 +26,6 @@ const myJobs = [
   {
     id: 2,
     company: "My Company",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=MyCompany2",
     position: "Frontend Developer",
     salary: "$80-100/hr",
     location: "Remote",
@@ -37,7 +36,6 @@ const myJobs = [
   {
     id: 3,
     company: "My Company",
-    logo: "https://api.dicebear.com/7.x/micah/svg?seed=MyCompany3",
     position: "Backend Engineer",
     salary: "$100-130/hr",
     location: "Hybrid, London",
@@ -136,7 +134,7 @@ export default function MyJobs() {
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
                     {/* Logo */}
-                    <img src={job.logo} alt={job.company} className="w-12 h-12 rounded-lg bg-muted" />
+                    <DiceBearLogo seed={`${job.company}-${job.id}`} size="lg" />
 
                     {/* Content */}
                     <div className="flex-1">
