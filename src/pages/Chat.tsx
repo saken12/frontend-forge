@@ -3,7 +3,7 @@ import { Send, Search, MoreVertical, Phone, Video, Paperclip, Smile, ArrowLeft }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -19,6 +19,7 @@ const mockConversations = [
     id: 1,
     name: "Atlassian HR",
     company: "Atlassian",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=AtlassianHR",
     lastMessage: "We'd like to schedule an interview",
     timestamp: "2m ago",
     unread: 2,
@@ -28,6 +29,7 @@ const mockConversations = [
     id: 2,
     name: "Sarah Chen",
     company: "Netflix",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=SarahChen",
     lastMessage: "Thanks for your application",
     timestamp: "1h ago",
     unread: 0,
@@ -37,6 +39,7 @@ const mockConversations = [
     id: 3,
     name: "Mike Johnson",
     company: "Adobe",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=MikeJohnson",
     lastMessage: "Can you provide more details about...",
     timestamp: "2h ago",
     unread: 1,
@@ -46,6 +49,7 @@ const mockConversations = [
     id: 4,
     name: "Emma Wilson",
     company: "Spotify",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=EmmaWilson",
     lastMessage: "Your resume looks great!",
     timestamp: "1d ago",
     unread: 0,
@@ -135,6 +139,7 @@ export default function Chat() {
               </Button>
               <div className="relative">
                 <Avatar className="h-8 w-8">
+                  <AvatarImage src={selectedChat.avatar} alt={selectedChat.name} />
                   <AvatarFallback>{selectedChat.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 {selectedChat.online && (
@@ -232,6 +237,7 @@ export default function Chat() {
                 <div className="flex items-start gap-3">
                   <div className="relative">
                     <Avatar className="h-10 w-10">
+                      <AvatarImage src={conv.avatar} alt={conv.name} />
                       <AvatarFallback>{conv.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     {conv.online && (
@@ -298,6 +304,7 @@ export default function Chat() {
                 <div className="flex items-start gap-3">
                   <div className="relative">
                     <Avatar>
+                      <AvatarImage src={conv.avatar} alt={conv.name} />
                       <AvatarFallback>{conv.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     {conv.online && (
@@ -335,6 +342,7 @@ export default function Chat() {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Avatar>
+                <AvatarImage src={selectedChat.avatar} alt={selectedChat.name} />
                 <AvatarFallback>{selectedChat.name.charAt(0)}</AvatarFallback>
               </Avatar>
               {selectedChat.online && (

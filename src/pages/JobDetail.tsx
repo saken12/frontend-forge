@@ -28,7 +28,7 @@ const mockJobs: Record<string, {
   "1": {
     id: "1",
     company: "Atlassian",
-    logo: "🔷",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     title: "Product Manager",
     location: "Onsite, New York",
     timezone: "UTC -5",
@@ -58,7 +58,7 @@ const mockJobs: Record<string, {
   "2": {
     id: "2",
     company: "Netflix",
-    logo: "🎬",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Netflix",
     title: "Senior UX Designer",
     location: "Remote",
     timezone: "UTC -8",
@@ -114,7 +114,7 @@ export default function JobDetail() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-2xl">{job.logo}</span>
+          <img src={job.logo} alt={job.company} className="w-8 h-8 rounded-lg bg-muted" />
           <span className="text-muted-foreground">{job.company}</span>
           <span className="text-muted-foreground text-sm">Posted {job.postedDate}</span>
         </div>

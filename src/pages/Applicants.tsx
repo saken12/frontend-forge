@@ -31,7 +31,7 @@ const applicants = [
     location: "Jakarta, Indonesia",
     appliedDate: "2 Jan 2026",
     status: "pending",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Ahmad",
     experience: "3 years",
   },
   {
@@ -43,7 +43,7 @@ const applicants = [
     location: "Bandung, Indonesia",
     appliedDate: "1 Jan 2026",
     status: "reviewed",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Siti",
     experience: "5 years",
   },
   {
@@ -55,7 +55,7 @@ const applicants = [
     location: "Surabaya, Indonesia",
     appliedDate: "31 Dec 2025",
     status: "interviewed",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Budi",
     experience: "4 years",
   },
 ];

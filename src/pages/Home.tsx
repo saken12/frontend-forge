@@ -11,8 +11,7 @@ const recentJobs = [
   {
     id: 1,
     company: "Atlassian",
-    logo: "A",
-    logoColor: "bg-blue-500",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     position: "Product Manager",
     salary: "$90-120/hr",
     location: "Onsite, New York",
@@ -23,8 +22,7 @@ const recentJobs = [
   {
     id: 2,
     company: "Anima",
-    logo: "A",
-    logoColor: "bg-gradient-to-br from-yellow-400 to-pink-500",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Anima",
     position: "Frontend Developer",
     salary: "$90-120/hr",
     location: "Remote, Europe",
@@ -35,8 +33,7 @@ const recentJobs = [
   {
     id: 3,
     company: "Airtable",
-    logo: "▢",
-    logoColor: "bg-gradient-to-br from-pink-500 to-yellow-400",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Airtable",
     position: "Full Stack Engineer",
     salary: "$50-70/hr",
     location: "Hybrid, London",
@@ -51,7 +48,7 @@ const recentApplicants = [
   {
     id: 1,
     name: "John Doe",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=John",
     position: "Product Manager",
     company: "Atlassian",
     appliedDate: "Apr 10, 2025",
@@ -61,7 +58,7 @@ const recentApplicants = [
   {
     id: 2,
     name: "Jane Smith",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Jane",
     position: "Frontend Developer",
     company: "Anima",
     appliedDate: "Apr 9, 2025",
@@ -71,7 +68,7 @@ const recentApplicants = [
   {
     id: 3,
     name: "Mike Johnson",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Mike",
     position: "Full Stack Engineer",
     company: "Airtable",
     appliedDate: "Apr 8, 2025",
@@ -81,7 +78,7 @@ const recentApplicants = [
   {
     id: 4,
     name: "Sarah Williams",
-    avatar: "",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=Sarah",
     position: "Product Manager",
     company: "Atlassian",
     appliedDate: "Apr 8, 2025",
@@ -165,9 +162,7 @@ export default function Home() {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg ${job.logoColor} flex items-center justify-center text-primary-foreground font-bold`}>
-                      {job.logo}
-                    </div>
+                    <img src={job.logo} alt={job.company} className="w-10 h-10 rounded-lg bg-muted" />
                     <div>
                       <h3 className="font-semibold text-foreground">{job.company}</h3>
                       <p className="text-sm text-muted-foreground">{job.position}</p>
