@@ -24,8 +24,7 @@ const jobs = [
   {
     id: 1,
     company: "Atlassian",
-    logo: "A",
-    logoColor: "bg-blue-500",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Atlassian",
     position: "Product Manager",
     salary: "$90-120/hr",
     location: "Onsite, United States",
@@ -40,8 +39,7 @@ const jobs = [
   {
     id: 2,
     company: "Anima",
-    logo: "A",
-    logoColor: "bg-gradient-to-br from-yellow-400 to-pink-500",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Anima",
     position: "Frontend Developer",
     salary: "$90-120/hr",
     location: "Remote, Asia",
@@ -56,8 +54,7 @@ const jobs = [
   {
     id: 3,
     company: "Airtable",
-    logo: "▢",
-    logoColor: "bg-gradient-to-br from-pink-500 to-yellow-400",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Airtable",
     position: "Full Stack Engineer",
     salary: "$50-70/hr",
     location: "Hybrid, Africa",
@@ -72,8 +69,7 @@ const jobs = [
   {
     id: 4,
     company: "Adobe",
-    logo: "A",
-    logoColor: "bg-red-600",
+    logo: "https://api.dicebear.com/7.x/micah/svg?seed=Adobe",
     position: "UI/UX Designer",
     salary: "$100,000/yr",
     location: "Onsite, Europe",
@@ -307,11 +303,7 @@ export default function Jobs() {
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
                     {/* Logo */}
-                    <div
-                      className={`w-12 h-12 rounded-lg ${job.logoColor} flex items-center justify-center text-primary-foreground font-bold text-lg`}
-                    >
-                      {job.logo}
-                    </div>
+                    <img src={job.logo} alt={job.company} className="w-12 h-12 rounded-lg bg-muted" />
 
                     {/* Content */}
                     <div className="flex-1">

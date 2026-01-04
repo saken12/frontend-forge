@@ -2,7 +2,7 @@
 import { Star, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { useState } from "react";
 import { WriteReviewDialog } from "./WriteReviewDialog";
@@ -10,6 +10,7 @@ import { WriteReviewDialog } from "./WriteReviewDialog";
 interface Review {
   id: number;
   author: string;
+  avatar: string;
   rating: number;
   date: string;
   title: string;
@@ -22,6 +23,7 @@ const mockReviews: Review[] = [
   {
     id: 1,
     author: "John D.",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=JohnD",
     rating: 5,
     date: "2 weeks ago",
     title: "Great company culture",
@@ -32,6 +34,7 @@ const mockReviews: Review[] = [
   {
     id: 2,
     author: "Sarah M.",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=SarahM",
     rating: 4,
     date: "1 month ago",
     title: "Good work-life balance",
@@ -42,6 +45,7 @@ const mockReviews: Review[] = [
   {
     id: 3,
     author: "Mike R.",
+    avatar: "https://api.dicebear.com/7.x/micah/svg?seed=MikeR",
     rating: 5,
     date: "2 months ago",
     title: "Best decision I made",
@@ -126,6 +130,7 @@ export function ReviewSection({ companyName }: ReviewSectionProps) {
               <div key={review.id} className="space-y-3">
                 <div className="flex items-start gap-3">
                   <Avatar>
+                    <AvatarImage src={review.avatar} alt={review.author} />
                     <AvatarFallback>{review.author.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
